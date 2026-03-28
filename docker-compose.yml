@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: keisho-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - keisho-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  keisho-network:
+    driver: bridge

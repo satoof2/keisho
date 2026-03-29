@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useKeishoAuth } from './hooks/useKeishoAuth';
 import { deriveKeishoPublicKey } from './utils/encryption';
 import Dashboard from './components/Dashboard';
-import { PenLine } from 'lucide-react';
+import { PenLine, X } from 'lucide-react';
 
 const App: React.FC = () => {
   const auth = useKeishoAuth();
@@ -37,6 +37,38 @@ const App: React.FC = () => {
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto"></div>
           <p className="text-slate-500">Keishoを初期化中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (auth.error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-slate-50 text-slate-900 p-8 text-center space-y-8">
+        <div className="max-w-md w-full bg-white p-10 rounded-2xl border border-red-100 shadow-2xl space-y-6">
+          <div className="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto">
+            <X size={32} />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-slate-900">エラーが発生しました</h2>
+            <div className="bg-red-50/50 p-4 rounded-xl border border-red-100 text-left">
+              <p className="text-red-800 text-sm font-medium leading-relaxed">{auth.error}</p>
+            </div>
+          </div>
+          <div className="flex gap-4">
+            <button
+              onClick={() => auth.logout()}
+              className="btn-secondary flex-1 py-3"
+            >
+              ログアウト
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="btn-primary flex-1 py-3"
+            >
+              再試行
+            </button>
+          </div>
         </div>
       </div>
     );

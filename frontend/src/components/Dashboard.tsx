@@ -128,11 +128,11 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
       if (res.ok) {
         setEditingAssetId(null);
         fetchAssets();
-        setToast({ message: 'Asset name updated', type: 'success' });
+        setToast({ message: '資産名を更新しました', type: 'success' });
       }
     } catch (e) {
       console.error('Failed to update asset name', e);
-      setToast({ message: 'Failed to update asset name', type: 'error' });
+      setToast({ message: '資産名の更新に失敗しました', type: 'error' });
     }
   };
 
@@ -150,11 +150,11 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
         const data = await res.json();
         setUserName(data.name);
         setIsEditingName(false);
-        setToast({ message: 'Username updated successfully', type: 'success' });
+        setToast({ message: 'ユーザー名を更新しました', type: 'success' });
       }
     } catch (e) {
       console.error('Failed to update name', e);
-      setToast({ message: 'Failed to update username', type: 'error' });
+      setToast({ message: 'ユーザー名の更新に失敗しました', type: 'error' });
     }
   };
 
@@ -174,23 +174,23 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
 
   if (auth.authenticated && (!Array.isArray(auth.wallets) || auth.wallets.length === 0)) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-white text-slate-900 flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto"></div>
-          <p className="text-slate-500">Loading wallet info...</p>
+          <p className="text-slate-500">ウォレット情報を読み込み中...</p>
         </div>
       </div>
     );
   }
 
-  let displayName = 'User';
+  let displayName = 'ユーザー';
   try {
     // Privy's user.email is an object { address: string }, not a plain string
     const userEmail = auth.user?.email?.address || auth.user?.email;
     const walletAddress = auth.wallets?.[0]?.address;
     const emailStr = typeof userEmail === 'string' ? userEmail : '';
     const addrStr = typeof walletAddress === 'string' ? walletAddress : '';
-    displayName = userName || emailStr || (addrStr ? addrStr.slice(0, 6) + '...' : 'User');
+    displayName = userName || emailStr || (addrStr ? addrStr.slice(0, 6) + '...' : 'ユーザー');
   } catch (e) {
     console.error('Error computing display name', e);
   }
@@ -325,30 +325,30 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
           <div className="space-y-1">
             <h1 className="text-4xl font-extrabold tracking-tight text-indigo-600">Keisho</h1>
             <div className="flex items-center gap-2">
-              <p className="text-slate-500 font-medium whitespace-nowrap">Welcome back, </p>
+              <p className="text-slate-500 font-medium whitespace-nowrap">おかえりなさい、</p>
               {isEditingName ? (
                 <div className="flex items-center gap-2">
                   <input 
                     type="text"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
-                    className="py-1 px-3 text-sm bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-indigo-500"
+                    className="py-1 px-3 text-sm bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500"
                     onKeyDown={(e) => e.key === 'Enter' && handleUpdateName()}
                     autoFocus
                   />
-                  <button onClick={handleUpdateName} className="p-1.5 text-indigo-500 hover:bg-slate-700 rounded-lg transition-colors">
+                  <button onClick={handleUpdateName} className="p-1.5 text-indigo-500 hover:bg-slate-100 rounded-lg transition-colors">
                     <Check size={16} />
                   </button>
-                  <button onClick={() => { setIsEditingName(false); setNewName(userName); }} className="p-1.5 text-slate-500 hover:bg-slate-700 rounded-lg transition-colors">
+                  <button onClick={() => { setIsEditingName(false); setNewName(userName); }} className="p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors">
                     <X size={16} />
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2 group">
-                  <span className="text-slate-200 font-bold">{displayName}</span>
+                  <span className="text-slate-900 font-bold">{displayName}</span>
                   <button 
                     onClick={() => setIsEditingName(true)}
-                    className="p-1.5 text-slate-500 hover:text-indigo-400 hover:bg-slate-700 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                    className="p-1.5 text-slate-500 hover:text-indigo-400 hover:bg-slate-100 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
                   >
                     <PenLine size={14} />
                   </button>
@@ -361,12 +361,12 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
               onClick={() => setShowCreateModal(true)}
               className="btn-primary flex items-center gap-2"
             >
-              <Plus size={20} /> New Asset
+              <Plus size={20} /> 資産を作成
             </button>
             <button 
               onClick={auth.logout}
               className="p-3 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
-              title="Logout"
+              title="ログアウト"
             >
               <LogOut size={22} />
             </button>
@@ -378,17 +378,17 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
           <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold flex items-center gap-2 text-slate-900">
-                <PenLine size={20} className="text-indigo-500" /> Wallet Identity
+                <PenLine size={20} className="text-indigo-500" /> ウォレット連携
               </h2>
-              <span className="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full uppercase tracking-widest">Headless Profile</span>
+
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               {/* Address display */}
               <div className="space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Public Address</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">パブリックアドレス</label>
                 <div className="flex items-center gap-2 group">
-                  <code className="flex-1 bg-zinc-950 text-indigo-600 text-sm font-mono px-4 py-3 rounded-xl border border-slate-200 shadow-inner truncate">
+                  <code className="flex-1 bg-slate-50 text-indigo-600 text-sm font-mono px-4 py-3 rounded-xl border border-slate-200 shadow-inner truncate">
                     {walletAddress || '―'}
                   </code>
                   <button
@@ -404,14 +404,14 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
 
               {/* Sign message */}
               <div className="space-y-3">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Signature Test</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">署名テスト</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={signInput}
                     onChange={(e) => setSignInput(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSignMessage()}
-                    placeholder="Enter message to sign..."
+                    placeholder="署名するメッセージを入力..."
                     className="flex-1 text-sm py-3"
                   />
                   <button
@@ -419,17 +419,17 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
                     disabled={signing || !signInput.trim()}
                     className="btn-secondary py-3 px-6 shadow-sm active:scale-95 disabled:opacity-50"
                   >
-                    {signing ? '...' : 'Sign'}
+                    {signing ? '...' : '署名'}
                   </button>
                 </div>
               </div>
             </div>
 
             {signResult && (
-              <div className="bg-zinc-950 rounded-xl p-4 border border-slate-200 animate-in zoom-in-95 duration-300">
+              <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 animate-in zoom-in-95 duration-300">
                 <div className="flex items-center gap-2 mb-2">
                   <Check size={14} className="text-green-500" />
-                  <p className="text-xs font-bold text-green-600 uppercase tracking-widest">Cryptographic Signature Generated</p>
+                  <p className="text-xs font-bold text-green-600 uppercase tracking-widest">暗号署名が生成されました</p>
                 </div>
                 <p className="font-mono text-xs text-slate-500 break-all leading-relaxed">{signResult}</p>
               </div>
@@ -441,14 +441,14 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
           <section className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
-                <Lock size={24} className="text-indigo-600" /> My Assets
+                <Lock size={24} className="text-indigo-600" /> マイ資産
               </h2>
-              <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{assets.length} Assets</span>
+              <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{assets.length} 件の資産</span>
             </div>
             <div className="grid gap-4">
               {assets.length === 0 && (
-                <div className="p-12 text-center bg-zinc-800/50 border-2 border-dashed border-slate-200 rounded-3xl">
-                  <p className="text-slate-500 italic font-medium">No assets created yet.</p>
+                <div className="p-12 text-center bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-3xl">
+                  <p className="text-slate-500 italic font-medium">作成された資産はまだありません。</p>
                 </div>
               )}
               {assets.map((asset: Asset) => (
@@ -462,7 +462,7 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
                             type="text"
                             value={editAssetName}
                             onChange={(e) => setEditAssetName(e.target.value)}
-                            className="py-1 px-2 text-xs bg-zinc-950 border border-slate-200 rounded-lg text-white focus:outline-none focus:border-indigo-500"
+                            className="py-1 px-2 text-xs bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-indigo-500"
                             onKeyDown={(e) => e.key === 'Enter' && handleUpdateAssetName(asset._id)}
                             autoFocus
                           />
@@ -476,7 +476,7 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
                       ) : (
                         <div className="flex items-center gap-2 group/name">
                           <p className={`font-bold text-sm uppercase tracking-widest ${asset.name ? 'text-slate-500' : 'text-slate-500 italic'}`}>
-                            {asset.name || 'no asset name'}
+                            {asset.name || '名前なし資産'}
                           </p>
                           <button 
                             onClick={() => { setEditingAssetId(asset._id); setEditAssetName(asset.name || ''); }}
@@ -516,7 +516,7 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
                         })
                       ) : (
                         <div className="px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-full">
-                          <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">No Inheritors</span>
+                          <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">継承者なし</span>
                         </div>
                       )}
                     </div>
@@ -524,15 +524,15 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
                   <div className="flex gap-2">
                     <button 
                       onClick={() => handleDecrypt(asset)}
-                      className="p-3 bg-zinc-950 border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 rounded-2xl transition-all shadow-sm active:scale-95"
-                      title="Decrypt"
+                      className="p-3 bg-white border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 rounded-2xl transition-all shadow-sm active:scale-95"
+                      title="復号"
                     >
                       {decryptedContents[asset._id] ? <Unlock size={20} /> : <Lock size={20} />}
                     </button>
                     <button 
                       onClick={() => { setSelectedAsset(asset); setShowInheritorModal(true); }}
-                      className="p-3 bg-zinc-950 border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 rounded-2xl transition-all shadow-sm active:scale-95"
-                      title="Assign Inheritor"
+                      className="p-3 bg-white border border-slate-200 hover:border-indigo-300 hover:text-indigo-600 rounded-2xl transition-all shadow-sm active:scale-95"
+                      title="継承者を指定"
                     >
                       <Users size={20} />
                     </button>
@@ -545,42 +545,42 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
           <section className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
-                <Users size={24} className="text-indigo-600" /> Inheritances
+                <Users size={24} className="text-indigo-600" /> 受け継ぐ資産
               </h2>
-              <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{sharedAssets.length} Assets</span>
+              <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">{sharedAssets.length} 件の資産</span>
             </div>
             <div className="grid gap-4">
               {sharedAssets.length === 0 && (
-                <div className="p-12 text-center bg-zinc-800/50 border-2 border-dashed border-slate-200 rounded-3xl">
-                  <p className="text-slate-500 italic font-medium">No shared assets assigned to you.</p>
+                <div className="p-12 text-center bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-3xl">
+                  <p className="text-slate-500 italic font-medium">あなたに共有された資産はありません。</p>
                 </div>
               )}
               {sharedAssets.map((asset: Asset) => (
                 <div key={asset._id} className="bg-white/80 p-6 rounded-3xl border border-slate-200 shadow-sm card-hover flex justify-between items-center group">
                   <div className="space-y-2">
                     <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                      From: <span className="text-indigo-500">
+                      差出人: <span className="text-indigo-500">
                         {(() => {
                           const ownerUser = allUsers.find(u => u.address.toLowerCase() === asset.ownerAddress.toLowerCase());
                           return ownerUser?.name || `${asset.ownerAddress.slice(0, 6)}...${asset.ownerAddress.slice(-4)}`;
                         })()}
                       </span>
                     </p>
-                    <p className={`text-xs font-bold uppercase tracking-widest ${asset.name ? 'text-slate-500' : 'text-slate-500 italic'}`}>
-                      {asset.name || 'no asset name'}
+                    <p className={`text-sm font-bold uppercase tracking-widest ${asset.name ? 'text-slate-500' : 'text-slate-500 italic'}`}>
+                      {asset.name || '名前なし資産'}
                     </p>
                     <p className="text-xl font-bold tracking-tight">
                       {decryptedContents[asset._id] ? (
-                        <span className="text-green-600 animate-in fade-in slide-in-from-left-2 duration-500">{decryptedContents[asset._id]}</span>
+                        <span className="text-indigo-600 animate-in fade-in slide-in-from-left-2 duration-500">{decryptedContents[asset._id]}</span>
                       ) : (
-                        <span className="text-slate-500 italic font-medium">Secure Shared Asset</span>
+                        <span className="text-slate-400 tracking-[0.3em] font-black">••••••••</span>
                       )}
                     </p>
                   </div>
                   <button 
                     onClick={() => handleDecryptShared(asset)}
-                    className="p-3 bg-zinc-950 border border-slate-200 hover:border-green-300 hover:text-green-600 rounded-2xl transition-all shadow-sm active:scale-95"
-                    title="Decrypt Shared Asset"
+                    className="p-3 bg-white border border-slate-200 hover:border-green-300 hover:text-green-600 rounded-2xl transition-all shadow-sm active:scale-95"
+                    title="共有資産を復号"
                   >
                     {decryptedContents[asset._id] ? <Unlock size={20} /> : <Lock size={20} />}
                   </button>
@@ -613,39 +613,35 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
         <div className="fixed inset-0 modal-backdrop flex items-center justify-center p-4 z-[100] animate-in fade-in duration-300">
           <div className="bg-white w-full max-w-md rounded-[2.5rem] border border-slate-200 p-10 shadow-2xl space-y-8 animate-in zoom-in-95 duration-300">
             <div className="space-y-2">
-              <h2 className="text-3xl font-black text-slate-900">Authorization</h2>
-              <p className="text-slate-500 text-sm font-medium uppercase tracking-widest">Cryptographic verification required</p>
+              <h2 className="text-3xl font-black text-slate-900">承認</h2>
+              <p className="text-slate-500 text-sm font-medium uppercase tracking-widest">暗号化検証が必要です</p>
             </div>
 
             {toast?.type === 'error' && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl text-sm animate-in slide-in-from-top-2">
                 <p className="font-bold flex items-center gap-2">
-                  <span>⚠️</span> Error
+                  <span>⚠️</span> エラー
                 </p>
                 <p className="opacity-80">{toast.message}</p>
               </div>
             )}
 
-            <div className="bg-zinc-950 p-6 rounded-3xl border border-slate-200 space-y-4">
+            <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 space-y-4">
               <div className="flex items-center gap-2 text-indigo-500 font-bold">
                 <PenLine size={18} />
-                <span className="text-xs uppercase tracking-widest">Message to Sign</span>
+                <span className="text-xs uppercase tracking-widest">署名するメッセージ</span>
               </div>
               <p className="text-sm text-slate-600 font-mono bg-white/50 p-3 rounded-xl border border-slate-200 shadow-inner italic">
                 "{showSignPrompt === 'owner' ? "Keisho Symmetric Key Seed" : "Keisho Public Key Seed"}"
               </p>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                {showSignPrompt === 'owner' 
-                  ? "Signing this message allows us to derive a secure, local-only encryption key for your assets."
-                  : "Signing this message enables secure public key derivation to access shares granted to you."}
-              </p>
+
             </div>
             <div className="flex gap-4">
               <button 
                 onClick={() => { setShowSignPrompt(null); setPendingAsset(null); setToast(null); }}
                 className="btn-secondary flex-1"
               >
-                Cancel
+                キャンセル
               </button>
               <button 
                 onClick={showSignPrompt === 'owner' ? confirmDecryptOwner : confirmDecryptShared}
@@ -653,7 +649,7 @@ const Dashboard: React.FC<{ auth: any }> = ({ auth }) => {
                 className="btn-primary flex-[2] relative overflow-hidden group"
               >
                 <span className={decrypting ? 'opacity-0' : 'opacity-100'}>
-                  {decrypting ? 'Working...' : 'Sign & Decrypt'}
+                  {decrypting ? '処理中...' : '署名して復号'}
                 </span>
                 {decrypting && (
                   <div className="absolute inset-0 flex items-center justify-center">

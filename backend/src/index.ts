@@ -9,7 +9,7 @@ import assetRoutes from './routes/assets.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 7330;
+const PORT = process.env.PORT;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/keisho';
 
 app.use(cors());
@@ -20,13 +20,15 @@ app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/assets', assetRoutes);
 
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
   });
+

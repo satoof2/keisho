@@ -18,8 +18,8 @@ const App: React.FC = () => {
   const confirmAndRegister = async () => {
     try {
       setRegistering(true);
-      const signatureResult = await auth.signMessage({ 
-        message: "Keisho Public Key Seed" 
+      const signatureResult = await auth.signMessage({
+        message: "Keisho Public Key Seed"
       });
       const publicKey = await deriveKeishoPublicKey(signatureResult.signature);
       await auth.register(name, publicKey);
@@ -36,7 +36,7 @@ const App: React.FC = () => {
       <div className="flex items-center justify-center h-screen bg-slate-50 text-slate-900">
         <div className="text-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto"></div>
-          <p className="text-slate-500">Initializing Keisho...</p>
+          <p className="text-slate-500">Keishoを初期化中...</p>
         </div>
       </div>
     );
@@ -48,11 +48,11 @@ const App: React.FC = () => {
         <div className="text-center space-y-4">
           <h1 className="text-6xl font-bold tracking-tight text-indigo-600">Keisho</h1>
         </div>
-        <button 
+        <button
           onClick={() => auth.login()}
           className="btn-primary text-lg px-12 py-4 shadow-xl shadow-indigo-200 hover:scale-105 active:scale-95 transition-all"
         >
-          Login with Privy
+          Privyでログイン
         </button>
       </div>
     );
@@ -63,28 +63,28 @@ const App: React.FC = () => {
       <div className="flex flex-col items-center justify-center h-screen bg-slate-50 text-slate-900 p-8">
         <div className="max-w-md w-full bg-white p-10 rounded-2xl border border-slate-200 shadow-2xl space-y-8">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Register Profile</h2>
-            <p className="text-slate-500 text-sm">Create your digital legacy identity.</p>
+            <h2 className="text-3xl font-bold">プロフィール登録</h2>
+            <p className="text-slate-500 text-sm">デジタル遺産の管理用アカウントを作成します。</p>
           </div>
-          
+
           {!showSignPrompt ? (
             <div className="space-y-8">
               <div className="space-y-4">
-                <label className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Your Name</label>
-                <input 
-                  type="text" 
+                <label className="text-sm font-semibold text-slate-500 uppercase tracking-wider">お名前</label>
+                <input
+                  type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="w-full text-lg"
-                  placeholder="e.g. Satoshi Nakamoto"
+                  placeholder="例: 山田 太郎"
                 />
               </div>
-              <button 
+              <button
                 onClick={handleRegister}
                 disabled={!name}
                 className="w-full btn-primary py-4 text-lg disabled:opacity-50"
               >
-                Continue to Signing
+                登録する
               </button>
             </div>
           ) : (
@@ -95,21 +95,20 @@ const App: React.FC = () => {
                   <span className="w-2 h-2 rounded-full bg-indigo-600 shadow-[0_0_8px_rgba(139,92,246,0.6)]"></span>
                 </div>
                 <p className="text-sm text-slate-500 font-mono bg-white p-2 rounded">"Keisho Public Key Seed"</p>
-                <p className="text-xs text-slate-500 italic">We use this signature to derive your Keisho Public Key securely without storing your private keys.</p>
               </div>
               <div className="flex gap-4">
-                <button 
+                <button
                   onClick={() => setShowSignPrompt(false)}
                   className="btn-secondary flex-1"
                 >
                   Back
                 </button>
-                <button 
+                <button
                   onClick={confirmAndRegister}
                   disabled={registering}
                   className="btn-primary flex-[2] py-4"
                 >
-                  {registering ? 'Registering...' : 'Sign & Complete'}
+                  {registering ? '登録中...' : '登録を完了する'}
                 </button>
               </div>
             </div>

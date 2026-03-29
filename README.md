@@ -1,5 +1,7 @@
 # Keisho
 
+![Dashboard Screenshot](./dashboard_screenshot.png)
+
 このプロジェクトの詳細については [spec.md](spec.md) を参照してください。
 
 ## セットアップ

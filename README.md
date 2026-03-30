@@ -1,5 +1,7 @@
 # Keisho
 
+https://keisho-frontend-250252396269.asia-northeast1.run.app/
+
 ![Dashboard Screenshot](./dashboard_screenshot.png)
 
 このプロジェクトの詳細については [spec.md](spec.md) を参照してください。
